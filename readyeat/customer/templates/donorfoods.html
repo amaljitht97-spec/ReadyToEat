@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block base %}
+
+<!-- 🔹 HERO SECTION -->
+<section class="h-[80vh] bg-cover bg-center flex items-center justify-center"
+    style="background-image: url('https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg');">
+
+    <div class="bg-black bg-opacity-50 p-10 rounded text-center">
+        <h1 class="text-4xl text-white font-bold mb-4">
+            Reduce Food Waste 🍛
+        </h1>
+
+        {% if category %}
+        <p class="text-white text-lg">
+            Showing foods in: <b>{{ category.name }}</b>
+        </p>
+        {% else %}
+        <p class="text-white text-lg">
+            Connect donors with people in need and make a difference.
+        </p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- 🔹 FOOD CARDS -->
+<section class="py-12 px-6 bg-gray-100">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
+        {% for food in data %}
+        <div class="group bg-white rounded-3xl shadow-xl overflow-hidden hover:scale-[1.03] transition duration-300">
+
+            <!-- 🔹 IMAGE -->
+            <div class="h-56 bg-gray-200 overflow-hidden">
+                {% if food.food_images %}
+                <img src="{{ food.food_images.url }}"
+                     class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                {% else %}
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836"
+                     class="w-full h-full object-cover">
+                {% endif %}
+            </div>
+
+            <!-- 🔹 CONTENT -->
+            <div class="p-5 text-center">
+
+                <!-- Title -->
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                    {{ food.food_title }}
+                </h3>
+
+                <!-- Category -->
+                <p class="text-sm text-gray-400 mb-1">
+                    {{ food.food_items.name }}
+                </p>
+
+                <!-- Donor -->
+                <h4 class="text-md font-semibold text-gray-700 mb-2">
+                    {% if food.donor.donorprofile %}
+                        {{ food.donor.donorprofile.organization_name }}
+                    {% else %}
+                        {{ food.donor.username }}
+                    {% endif %}
+                </h4>
+
+                <!-- Description -->
+                <p class="text-gray-500 text-sm mb-3">
+                    {{ food.food_description }}
+                </p>
+
+                <!-- ⭐ REVIEWS -->
+                <div class="mt-3 bg-gray-50 rounded-lg p-3 text-left max-h-32 overflow-y-auto">
+
+                    <h4 class="font-semibold text-sm mb-2 text-gray-700">
+                        Reviews
+                    </h4>
+
+                    {% for r in food.reviews.all|slice:":2" %}
+                        <div class="text-xs border-b py-1">
+                            ⭐ {{ r.rating }} — {{ r.comment }}
+                        </div>
+                    {% empty %}
+                        <p class="text-xs text-gray-400">
+                            No reviews yet
+                        </p>
+                    {% endfor %}
+
+                </div>
+
+                <!-- 🔹 STATUS -->
+                <div class="mt-4">
+                {% if food.is_available %}
+                    <span class="inline-block text-green-600 text-sm font-semibold mb-2">
+                        Available
+                    </span>
+
+                    <form method="POST" action="{% url 'foodrequest' food.id %}">
+                        {% csrf_token %}
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+                            Request Food
+                        </button>
+                    </form>
+
+                {% else %}
+                    <span class="inline-block text-red-500 text-sm font-semibold mb-2">
+                        Not Available
+                    </span>
+
+                    <button disabled class="w-full bg-gray-400 text-white py-2 rounded-lg">
+                        Not Available
+                    </button>
+                {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+        {% empty %}
+        <div class="col-span-3 text-center">
+            <p class="text-gray-500 text-lg">
+                No food available right now 😔
+            </p>
+            <p class="text-gray-400 text-sm mt-2">
+                Try checking another category or come back later.
+            </p>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- 🔹 TOTAL COUNT -->
+    {% if total_items %}
+    <div class="text-center mt-10">
+        <p class="text-gray-600">
+            Total items: <b>{{ total_items }}</b>
+        </p>
+    </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}

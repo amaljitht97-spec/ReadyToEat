@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block base %}
+
+<!-- ================= PAGE WRAPPER ================= -->
+<div class="bg-gray-50 min-h-screen py-10 px-4">
+
+    <!-- TITLE -->
+    <div class="max-w-4xl mx-auto mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            🍱 Food Donor Dashboard
+        </h1>
+        <p class="text-gray-500 text-sm">
+            Provide your details to start donating surplus food
+        </p>
+    </div>
+
+    <!-- ================= FORM ================= -->
+    <div class="flex justify-center">
+        <form method="POST"
+            class="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-6 border border-gray-100">
+
+            {% csrf_token %}
+
+            <h2 class="text-lg font-semibold text-gray-700 mb-4">
+                Donor Profile
+            </h2>
+
+            <!-- ERRORS -->
+            {% if form.errors %}
+                <div class="mb-4 text-red-500 text-sm">
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+
+            <!-- PHONE -->
+            <div class="mb-4">
+                <label class="text-gray-600 text-sm">Phone</label>
+                {{ form.phone }}
+            </div>
+
+            <!-- ADDRESS + MAP -->
+            <div class="mb-4">
+                <label class="text-gray-600 font-medium text-sm">
+                    Search or Click Location
+                </label>
+
+                <div id="map" class="w-full h-64 rounded-lg mt-2 shadow"></div>
+
+                <input type="text" name="address" id="address"
+                    value="{{ form.address.value|default:'' }}"
+                    class="w-full mt-3 py-3 border rounded-lg px-3 bg-gray-100 focus:outline-none"
+                    placeholder="Search or click map"
+                    readonly required>
+            </div>
+
+            <!-- SUBMIT -->
+            <div class="text-right">
+                <button type="submit"
+                    class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+                    Save Profile
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+
+<!-- ================= LEAFLET CSS/JS ================= -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+
+<!-- ================= MAP SCRIPT ================= -->
+<script>
+    var map = L.map('map').setView([11.2588, 75.7804], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var marker;
+
+    var geocoder = L.Control.geocoder({
+        defaultMarkGeocode: false
+    }).addTo(map);
+
+    geocoder.on('markgeocode', function(e) {
+        var latlng = e.geocode.center;
+
+        map.setView(latlng, 15);
+
+        if (marker) map.removeLayer(marker);
+
+        marker = L.marker(latlng).addTo(map);
+
+        setAddress(latlng.lat, latlng.lng);
+    });
+
+    map.on('click', function(e) {
+        var lat = e.latlng.lat;
+        var lng = e.latlng.lng;
+
+        if (marker) map.removeLayer(marker);
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        setAddress(lat, lng);
+    });
+
+    function setAddress(lat, lng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('address').value = data.display_name;
+        })
+        .catch(() => {
+            document.getElementById('address').value = lat + ", " + lng;
+        });
+    }
+</script>
+
+{% endblock %}

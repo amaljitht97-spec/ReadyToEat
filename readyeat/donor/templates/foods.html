@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Donor Dashboard</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-white text-black">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="bg-[#00674b] px-6 py-4 flex justify-between items-center shadow-md text-white">
+    <h1 class="text-xl font-bold">🍱 Food Donor Dashboard</h1>
+
+    <div class="space-x-6 hidden md:flex">
+        <a href="#" class="hover:text-gray-200">Home</a>
+        <a href="#" class="hover:text-gray-200">Orders</a>
+        <a href="#" class="hover:text-gray-200">Categories</a>
+ 
+        <a href="{% url 'fooddonor' %}" class="hover:text-gray-200">Profile</a>
+    </div>
+
+    <button class="bg-white text-[#00674b] px-4 py-1 rounded-lg text-sm">
+        Logout
+    </button>
+</nav>
+
+
+<!-- ================= STEPS CAROUSEL ================= -->
+<section class="p-10 text-center">
+
+    <h2 class="text-3xl font-bold mb-8">How It Works</h2>
+
+    <div class="relative w-full max-w-4xl mx-auto overflow-hidden">
+
+        <div id="carousel" class="flex transition-transform duration-700">
+
+            <!-- STEP 1 -->
+            <div class="min-w-full p-6">
+                <img src="https://img.freepik.com/free-vector/food-donation-concept_23-2148590263.jpg"
+                     class="w-full h-64 object-cover rounded-xl">
+                <h3 class="text-xl font-semibold mt-4">1. Add Food</h3>
+                <p class="text-gray-600">Donors upload surplus food details easily.</p>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="min-w-full p-6">
+                <img src="https://img.freepik.com/free-vector/online-food-order_23-2148653052.jpg"
+                     class="w-full h-64 object-cover rounded-xl">
+                <h3 class="text-xl font-semibold mt-4">2. Request</h3>
+                <p class="text-gray-600">Customers browse and request available food.</p>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="min-w-full p-6">
+                <img src="https://img.freepik.com/free-vector/delivery-service-concept_23-2148505081.jpg"
+                     class="w-full h-64 object-cover rounded-xl">
+                <h3 class="text-xl font-semibold mt-4">3. Deliver</h3>
+                <p class="text-gray-600">Food gets delivered or picked up quickly.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= PRODUCTS ================= -->
+<section class="p-6">
+
+    <h2 class="text-2xl font-bold mb-6 text-center">Available Food</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for i in data %}
+
+        <!-- CARD -->
+        <div class="bg-[#00674b] text-white rounded-xl shadow-lg hover:scale-105 transition p-4">
+
+            <img class="w-full h-40 object-cover rounded-lg"
+                src="{{ i.image.url }}">
+
+            <h3 class="text-lg font-semibold mt-3">{{i.title}}</h3>
+            <p class="text-sm opacity-80">{{i.bio}}</p>
+
+            <div class="flex justify-between items-center mt-3">
+                <!-- <span class="font-bold">₹50</span> -->
+                <button class="bg-white text-[#00674b] px-3 py-1 rounded-full text-sm">
+                    <a href="{% url 'customerfoods' %}">Donate</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- CARD -->
+        <!-- <div class="bg-[#00674b] text-white rounded-xl shadow-lg hover:scale-105 transition p-4">
+
+            <img class="w-full h-40 object-cover rounded-lg"
+                src="https://img.freepik.com/free-photo/chicken-biryani_74190-5410.jpg">
+
+            <h3 class="text-lg font-semibold mt-3">Chicken Biriyani</h3>
+            <p class="text-sm opacity-80">Hot & spicy</p>
+
+            <div class="flex justify-between items-center mt-3">
+                 <span class="font-bold">₹120</span> -->
+                <!-- <button class="bg-white text-[#00674b] px-3 py-1 rounded-full text-sm">
+                    Donate
+                </button>
+            </div>
+        </div> --> 
+      {% endfor %}
+    </div>
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-[#00674b] text-white text-center p-4 mt-10">
+    <p class="text-sm">© 2026 Food Donor Dashboard</p>
+</footer>
+
+
+<!-- ================= CAROUSEL SCRIPT ================= -->
+<script>
+let index = 0;
+const carousel = document.getElementById("carousel");
+const totalSlides = carousel.children.length;
+
+setInterval(() => {
+    index = (index + 1) % totalSlides;
+    carousel.style.transform = `translateX(-${index * 100}%)`;
+}, 3000); // change every 3 seconds
+</script>
+
+</body>
+</html>

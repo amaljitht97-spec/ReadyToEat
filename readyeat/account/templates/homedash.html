@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0f756d",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#112120",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<!-- Navigation Bar -->
+<nav class="sticky top-0 z-50 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10" style="background-color: #00674b;">
+<div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white text-3xl">eco</span>
+<span class="text-xl font-bold tracking-tight text-white">Surplus Food</span>
+</div>
+<div class="hidden md:flex items-center gap-8 text-sm font-medium">
+<a class="hover:text-primary transition-colors" href="{% url 'custsign' %}" style="color: white;">Home</a>
+<a class="hover:text-primary transition-colors" href="" style="color: white;">About</a>
+<a class="hover:text-primary transition-colors" href="#how-it-works" style="color: white;">How it Works</a>
+<a class="hover:text-primary transition-colors" href="#listings" style="color: white;">Find Food</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-sm font-bold text-primary px-4 py-2" style="color: white;"><a href="{% url 'login' %}">Login</a></button>
+<button class="bg-white  px-5 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-all" style="color: #00674b;"><a href="{% url 'signup' %}">Sign Up</a></button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative h-[700px] w-full overflow-hidden flex items-center justify-center">
+<!-- Background Placeholder for Video -->
+<!-- <div class="absolute inset-0 z-0 bg-primary/20">
+<img alt="Surplus Food Hero" class="w-full h-full object-cover" data-alt="Cinematic slow motion of fresh vegetables" src=""/>
+<div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-background-dark/90"></div>
+</div> -->
+<div class="absolute inset-0 z-0 ">
+
+<video id="heroVideo"
+class="w-full h-full object-cover"
+autoplay
+muted
+loop
+playsinline>
+
+<source src="https://www.pexels.com/download/video/6894121/" type="video/mp4">
+
+</video>
+
+<div class="absolute "></div>
+
+</div>
+<div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+<h1 class=" text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6" style="color: #00674b;">
+                SAVE GOOD FOOD FROM GOING TO WASTE
+            </h1>
+<p class=" text-lg md:text-xl font-normal mb-10 max-w-2xl mx-auto">
+                Join our platform to share surplus food and support communities. Every meal saved is a step towards a sustainable future.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-white text-primary px-8 py-4 rounded-xl text-lg font-bold hover:bg-slate-100 transition-all shadow-xl" style="color: #00674b;"><a href="{% url 'registerdonr' %}">  Donate Surplus Food </a>
+                  
+                </button>
+<button class="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm" style="background-color: #00674b;"><a href="{% url 'custsign' %}">Find Food Near You</a>
+                    
+                </button>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-24 px-4 max-w-7xl mx-auto" id="about">
+<div class="grid md:grid-cols-2 gap-16 items-center">
+<div class="relative">
+<div class="absolute -inset-4 bg-primary/5 rounded-xl -rotate-2"></div>
+<img alt="Our Mission" class="relative w-full aspect-[4/3] object-cover rounded-xl shadow-2xl" data-alt="People sharing a communal meal together" src="https://i.pinimg.com/736x/0f/ac/60/0fac609e5ab37477fa1ba434d22d437d.jpg"/>
+</div>
+<div class="space-y-6">
+<span class="text-primary font-bold tracking-widest uppercase text-sm">Our Mission</span>
+<h2 class="text-4xl font-bold leading-tight">Feeding People, Not Landfills</h2>
+<p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+                    Millions of tons of perfectly edible food are thrown away every year. At Surplus Food, we bridge the gap between businesses with excess supply and communities in need. Our platform makes it seamless to list, discover, and distribute food that would otherwise go to waste.
+                </p>
+<ul class="space-y-4">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded-full text-xl">check</span>
+<span class="font-medium">Reduced Environmental Impact</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded-full text-xl">check</span>
+<span class="font-medium">Community Support Systems</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-1 rounded-full text-xl">check</span>
+<span class="font-medium">Seamless Logistics and Tracking</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- How It Works Carousel -->
+<section class="py-24 " id="how-it-works" style="background-color: #00674b;">
+<div class="max-w-7xl mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+<p class="text-slate-600 dark:text-slate-400">Join the movement in four simple steps</p>
+</div>
+<!-- Simple Horizontal Layout representing a "carousel" flow for static HTML -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="bg-white dark:bg-background-dark p-8 rounded-2xl border border-primary/10 hover:shadow-xl transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 text-6xl font-black text-primary group-hover:opacity-20 transition-opacity">01</div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4">person_add</span>
+<h3 class="text-xl font-bold mb-2">Create Profile</h3>
+<p class="text-sm text-slate-500">Sign up as a donor or a receiver in minutes.</p>
+</div>
+<div class="bg-white dark:bg-background-dark p-8 rounded-2xl border border-primary/10 hover:shadow-xl transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 text-6xl font-black text-primary group-hover:opacity-20 transition-opacity">02</div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4">post_add</span>
+<h3 class="text-xl font-bold mb-2">List Surplus</h3>
+<p class="text-sm text-slate-500">Snap a photo and list items available for pickup.</p>
+</div>
+<div class="bg-white dark:bg-background-dark p-8 rounded-2xl border border-primary/10 hover:shadow-xl transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 text-6xl font-black text-primary group-hover:opacity-20 transition-opacity">03</div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4">near_me</span>
+<h3 class="text-xl font-bold mb-2">Connect</h3>
+<p class="text-sm text-slate-500">Local partners get notified and claim the food.</p>
+</div>
+<div class="bg-white dark:bg-background-dark p-8 rounded-2xl border border-primary/10 hover:shadow-xl transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 text-6xl font-black text-primary group-hover:opacity-20 transition-opacity">04</div>
+<span class="material-symbols-outlined text-4xl text-primary mb-4">local_shipping</span>
+<h3 class="text-xl font-bold mb-2">Pickup/Delivery</h3>
+<p class="text-sm text-slate-500">Arrange a quick handoff and complete the rescue.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Human Interaction Interaction Section -->
+<!-- <section class="relative h-[400px] flex items-center justify-center text-center px-4 overflow-hidden">
+<div class="absolute inset-0">
+<img alt="Community interaction" class="w-full h-full object-cover" data-alt="Hands holding fresh apples in a group" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfo1pYHdkosD9HebD9iN3jojr9sAX5bPzlvFK5i4LaOUw8kGpaQWYjzC3U063YRhQRTG7jQF0yDVQVVcrSEfBwQw1EzNyuDPaMnYm1xZ6HOXc-klG5S3Uhhg8Rrs5-BvyyMlUXBq3CSDqmpuHdiWmHGekNfDY3aw_8saCsHog0nP3fakHCi_Tds2fbhrBurlhIiFWVo7DoaIfepkOw8Va-vvKGQ6dtOpMP_dnFoi6wCLVlDzqNRPz9NsnuTjiuYJiiTtOBjB8I1eTb"/>
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-[2px]"></div>
+</div>
+<div class="relative z-10 max-w-2xl">
+<h2 class="text-4xl md:text-5xl font-black text-white mb-6 drop-shadow-lg">Together We Can Reduce Food Waste</h2>
+<button class="bg-white text-primary px-8 py-3 rounded-full font-bold hover:scale-105 transition-transform">Get Involved Now</button>
+</div>
+</section> -->
+<section class="py-16 px-6 md:px-20 bg-white dark:bg-background-dark">
+  
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+
+    <!-- Image Side -->
+    <div class="relative overflow-hidden rounded-2xl shadow-lg">
+      <img 
+        src="https://images.unsplash.com/photo-1593113598332-cd288d649433"
+        alt="Surplus food sharing"
+        class="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-500"
+      >
+      <div class="absolute inset-0 bg-primary/20"></div>
+    </div>
+
+
+    <!-- Business Introduction -->
+    <div class="space-y-6">
+
+      <span class="text-primary font-semibold uppercase tracking-wider text-sm">
+        About FoodShare
+      </span>
+
+      <h2 class="text-4xl font-bold leading-tight">
+        Surplus Food Distribution for a Better Future
+      </h2>
+
+      <p class="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
+        FoodShare is a community-driven platform designed to reduce food waste
+        by connecting people who have surplus food with those who need it.
+        Restaurants, grocery stores, and individuals can easily share extra
+        food instead of throwing it away.
+      </p>
+
+      <p class="text-slate-600 dark:text-slate-400">
+        Our mission is to create a sustainable ecosystem where food reaches
+        people, not landfills. By using FoodShare, communities can fight hunger,
+        reduce environmental waste, and build a culture of sharing.
+      </p>
+
+      <!-- Button -->
+      <a href="/about" 
+         class="inline-block mt-4 bg-primary text-black font-bold px-8 py-3 rounded-lg hover:scale-105 transition-transform">
+         Learn More About Us
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+<!-- Business Benefits Section -->
+<section class="py-24 max-w-7xl mx-auto px-4">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold mb-4">Why Businesses Join Us</h2>
+<p class="text-slate-600 dark:text-slate-400">Beyond just doing good, it's good for business.</p>
+</div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-white dark:bg-background-dark/40 p-6 rounded-xl border border-primary/10 text-center">
+<div class="bg-primary/10 w-16 h-16 flex items-center justify-center rounded-full mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">savings</span>
+</div>
+<h4 class="font-bold text-lg mb-2">Tax Incentives</h4>
+<p class="text-sm text-slate-500">Receive tax deduction certificates for all eligible donations.</p>
+</div>
+<div class="bg-white dark:bg-background-dark/40 p-6 rounded-xl border border-primary/10 text-center">
+<div class="bg-primary/10 w-16 h-16 flex items-center justify-center rounded-full mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">monitoring</span>
+</div>
+<h4 class="font-bold text-lg mb-2">Impact Reporting</h4>
+<p class="text-sm text-slate-500">Track carbon footprint reduction and meals provided.</p>
+</div>
+<div class="bg-white dark:bg-background-dark/40 p-6 rounded-xl border border-primary/10 text-center">
+<div class="bg-primary/10 w-16 h-16 flex items-center justify-center rounded-full mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">verified</span>
+</div>
+<h4 class="font-bold text-lg mb-2">CSR Boost</h4>
+<p class="text-sm text-slate-500">Showcase your commitment to sustainability to your customers.</p>
+</div>
+<div class="bg-white dark:bg-background-dark/40 p-6 rounded-xl border border-primary/10 text-center">
+<div class="bg-primary/10 w-16 h-16 flex items-center justify-center rounded-full mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">delete_sweep</span>
+</div>
+<h4 class="font-bold text-lg mb-2">Lower Waste Fees</h4>
+<p class="text-sm text-slate-500">Drastically reduce commercial waste disposal costs.</p>
+</div>
+</div>
+</section>
+<!-- Food Listing Grid -->
+
+
+<!-- <section class="py-24 bg-white dark:bg-background-dark px-4" id="listings">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h2 class="text-3xl font-bold mb-2">Available Surplus Food</h2>
+<p class="text-slate-500">Rescue fresh food available in your area right now.</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-4 py-2 border rounded-lg text-sm font-medium hover:bg-slate-50">
+<span class="material-symbols-outlined text-lg">filter_list</span> Filter
+                    </button>
+<button class="bg-primary text-white px-6 py-2 rounded-lg text-sm font-bold">View Map</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Django Loop Mockup: {% for food in foods %} -->
+<!-- <div class="flex flex-col bg-background-light dark:bg-background-dark/60 rounded-xl overflow-hidden border border-primary/5 hover:border-primary/20 transition-all">
+<div class="h-48 w-full relative">
+<img alt="Artisan Bread Basket" class="w-full h-full object-cover" data-alt="Assorted organic bakery products in a basket" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeMmymst_xnV6uKIpxM3M9VVZmulIYLcEreg4KK_Ajv18kWnrOIePduYZaEWRioQl0wuJ1U3BfEvWj9yKa0iWPUnsY13EO6Ha1GRiuIgWt8vmUkLE7_-B6fKBFnIJVAX0Fxa1QOhqWsIVvvu6DA9WP08ImWQ7-g3duiDRAf-P3bnxDaNIG-ruJzc_LyESLlhKSHWRmICpS4zg_0H0APCT13ibIR1bDNxmLphggJ_8j-XfwROBT0UNPWhKYS6vfGjIyl_eLzBP-WLud"/>
+<span class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-primary">Expires in 4h</span>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg">Artisan Bread Basket</h3>
+<span class="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">5 kg</span>
+</div>
+<div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span> -->
+<!-- <span>Downtown Bakery, Seattle</span>
+</div>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="text-xs">
+<p class="text-slate-400">Available until</p>
+<p class="font-bold">6:00 PM Today</p>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Request</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark/60 rounded-xl overflow-hidden border border-primary/5 hover:border-primary/20 transition-all">
+<div class="h-48 w-full relative">
+<img alt="Fresh Fruit Box" class="w-full h-full object-cover" data-alt="Box of fresh seasonal organic fruits" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAj0OPSPDmzG3dMz1Mh1aXRcz7GvG3EFZrhZ0WShaM_VgizcQ8i7IwtBw00yaKBH5iFd55_DU2onmCokWIyQDVpd266DZU2qi2X2Ibf8FkC8nUL4ughTHiLnzq-9pL4IvkC2byqhbwafO2KDZ-I1jYTLRlWJ5-J_3lyupl1McCh1LJYRIpgRDZ7sLUqHc5f3b-Qq9rjMJA3McHTwUDL0CcCXRTctsVgUiXB9h3ljZaONGqOenmUeR8D5q4UewnPQvCsc_W7X81Fg0RL"/>
+<span class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-primary">Expires in 12h</span>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg">Seasonal Fruit Box</h3>
+<span class="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">12 kg</span>
+</div>
+<div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Fresh Mart, Portland</span>
+</div>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="text-xs">
+<p class="text-slate-400">Available until</p>
+<p class="font-bold">Tomorrow Morning</p>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Request</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark/60 rounded-xl overflow-hidden border border-primary/5 hover:border-primary/20 transition-all">
+<div class="h-48 w-full relative">
+<img alt="Catering Overstock" class="w-full h-full object-cover" data-alt="Packaged catered salads and appetizers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq_sdJSqLlOosr0oNCsoppvjj_fTvBHPY1Wm5k5623Q_472q9M2aRxc8gGpMpXjsCNoRT6FPdtBaG5nSvOz4ZXh3OazqKDu2QD2O0myU2QIe7XE5212f8CuxZyE9dA86hlMQxA98nHAvjiA9ybz_HGesqpaqJd4Kny68iQiRB34YIv4h0T91cH7KnEDuiUI0VCzXASCLlheRf5bZfjb0aXLrrEslCj6hW4rkMCMFpuOlV2SGAqKPFyfZvgpTgunUOEkVuyVq4aqwLb"/>
+<span class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-primary">Expires in 2h</span>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg">Mixed Salad Bowls</h3>
+<span class="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">20 units</span>
+</div>
+<div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Corporate Hub, San Francisco</span>
+<!-- </div>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="text-xs">
+<p class="text-slate-400">Available until</p>
+<p class="font-bold">4:30 PM Today</p>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Request</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark/60 rounded-xl overflow-hidden border border-primary/5 hover:border-primary/20 transition-all">
+<div class="h-48 w-full relative">
+<img alt="Vegetable Bundle" class="w-full h-full object-cover" data-alt="Variety of garden fresh vegetables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBobVUrM7e1Ejeq9HAPTViJfryyWVylS9D5UMhOHxDw5CaSFBW4K5doWrTX2zrTiRkxAhTHAb9bZsJAXEBOx5eu0QzYxfsmAHmVp3OO6bRQxQeA_DdlFnYYAYFWbLYJ8Ec6_ipj8tYsOrTzgef__F48b_nixfh4--UF4MzQGmF5mMXHLjXx-kIq9Xa3iHmQ380xvHDfR7jqId1d9On8Z8PrhcjHomFVv6p6gBMPOlbKpivIZVHxZQCFnHNPKB_U9ytNwP_T3O25OTKH"/>
+<span class="absolute top-3 left-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-primary">Expires in 24h</span>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg">Organic Veggie Pack</h3>
+<span class="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded">8 kg</span>
+</div>
+<div class="flex items-center gap-1 text-slate-500 text-sm mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Green Farm Co, Austin</span>
+</div>
+<div class="mt-auto pt-4 border-t border-primary/10 flex items-center justify-between">
+<div class="text-xs">
+<p class="text-slate-400">Available until</p>
+<p class="font-bold">Next Day</p>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary/90 transition-colors">Request</button>
+</div>
+</div>
+</div> -->
+<!-- End Django Loop Mockup: {% endfor %} -->
+<!-- </div>
+<div class="mt-16 text-center">
+<button class="text-primary font-bold hover:underline">Explore All Listings →</button>
+</div>
+</div> -->
+<!-- </section> --> -->
+
+
+
+<!-- Footer  -->
+ <!-- <footer class=" text-white py-16 px-4" style="background-color: #00674b;">
+    <h1 class="font-black text-center">READY TO EAT</h1>
+<div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-2">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-4xl">eco</span>
+<span class="text-2xl font-bold tracking-tight">Surplus Food</span>
+</div>
+<p class="text-slate-400 max-w-sm mb-8" style="color: black;">
+                    Connecting surplus to scarcity. Join us in our journey to eliminate food waste and ensure no one goes hungry.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+</a>
+<a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6">Quick Links</h4>
+<ul class="space-y-4 text-slate-400 text-sm"style="color:black;">
+<li><a class="hover:text-primary" href="#">Donate Food</a></li>
+<li><a class="hover:text-primary" href="#">Find a Hub</a></li>
+<li><a class="hover:text-primary" href="#">Become a Partner</a></li>
+<li><a class="hover:text-primary" href="#">Volunteer</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-lg font-bold mb-6">Legal</h4>
+<ul class="space-y-4 text-slate-400 text-sm" style="color: black;">
+<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary" href="#">Donation Guidelines</a></li> 
+ <li><a class="hover:text-primary" href="#">Food Safety Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto pt-16 mt-16 border-t border-white/5 text-center text-sm text-slate-500">
+            © 2024 Surplus Food Platform. All rights reserved.
+        </div> 
+</footer> -->
+<footer class="text-white py-20 px-6" style="background-color:#00674b;">
+
+  <!-- Big Header -->
+  <div class="text-center mb-16">
+    <h1 class="text-5xl md:text-6xl font-black tracking-wider">
+      READY TO EAT
+    </h1>
+  </div>
+
+  <!-- Footer Content Container -->
+  <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 items-start">
+
+    <!-- Brand Section -->
+    <div class="md:col-span-2 space-y-6">
+
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-4xl">eco</span>
+        <span class="text-2xl font-bold">Surplus Food</span>
+      </div>
+
+      <p class="max-w-md text-white/80 leading-relaxed">
+        Connecting surplus to scarcity. Join us in our journey to eliminate
+        food waste and ensure no one goes hungry.
+      </p>
+
+      <!-- Social Icons -->
+      <div class="flex gap-4 pt-2">
+
+        <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white hover:text-[#00674b] transition">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M24 4.557c-.883.392-1.832.656-2.828.775
+            1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127
+            1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515
+            2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144"/>
+          </svg>
+        </a>
+
+        <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white hover:text-[#00674b] transition">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07
+            3.252.148 4.771 1.691 4.919 4.919"/>
+          </svg>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="text-lg font-bold mb-6">Quick Links</h4>
+      <ul class="space-y-3 text-white/80 text-sm">
+        <li><a class="hover:text-white" href="#">Donate Food</a></li>
+        <li><a class="hover:text-white" href="#">Find a Hub</a></li>
+        <li><a class="hover:text-white" href="#">Become a Partner</a></li>
+        <li><a class="hover:text-white" href="#">Volunteer</a></li>
+      </ul>
+    </div>
+
+    <!-- Legal -->
+    <div>
+      <h4 class="text-lg font-bold mb-6">Legal</h4>
+      <ul class="space-y-3 text-white/80 text-sm">
+        <li><a class="hover:text-white" href="#">Privacy Policy</a></li>
+        <li><a class="hover:text-white" href="#">Terms of Service</a></li>
+        <li><a class="hover:text-white" href="#">Donation Guidelines</a></li>
+        <li><a class="hover:text-white" href="#">Food Safety Policy</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Bottom Copyright -->
+  <div class="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/20 text-center text-sm text-white/70">
+    © 2024 Surplus Food Platform. All rights reserved.
+  </div>
+
+</footer>
+<!-- Video Restart JS Mockup (for mouse move) -->
+<script>
+        // Simple script to mimic the requested "JS for mouse movement video restart"
+        // In a real Django setup, this would target the <video> element
+        document.addEventListener('mousemove', () => {
+            const heroVideo = document.querySelector('video');
+            if(heroVideo) {
+                 heroVideo.currentTime = 0; // This might be jarring, usually would just ensure it's playing
+                 console.log("Mouse activity detected - ensuring video interaction");
+            }
+        });
+    </script>
+</body></html>

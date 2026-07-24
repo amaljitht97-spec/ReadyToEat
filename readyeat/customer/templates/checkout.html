@@ -1,0 +1,175 @@
+ <!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+
+     <!--  Tailwind  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body { font-family: Inter, sans-serif; }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+
+<main class="pt-16 px-4 sm:px-6 lg:px-10 xl:px-16 max-w-screen-2xl mx-auto">
+
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+
+                <!-- STATUS -->
+                {% if data.is_paid %}
+                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-bold">Paid</span>
+                {% elif data.status == "pending" %}
+                <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-xs font-bold">Pending</span>
+                {% else %}
+                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold">Failed</span>
+                {% endif %}
+
+                <span class="text-sm text-gray-500">Order #{{ data.id }}</span>
+            </div>
+
+            <h1 class="text-3xl md:text-4xl font-bold">data Summary</h1>
+            <p class="text-gray-500 mt-1">{{ order.created_at }}</p>
+        </div>
+
+        <div class="flex gap-3">
+            <a href=""
+               class="px-5 py-2 bg-gray-200 rounded-xl hover:bg-gray-300 transition">
+                Download Invoice
+            </a>
+        </div>
+
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- LEFT -->
+        <div class="lg:col-span-8 space-y-8">
+
+            <!-- ORDER ITEMS -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
+
+                <div class="p-6 border-b flex justify-between">
+                    <h2 class="font-bold text-lg">Order Items</h2>
+                    <span class="text-sm text-gray-500">
+                        {{ order_items|length }} Items
+                    </span>
+                </div>
+
+                <!-- SCROLLABLE ITEMS -->
+                <div class="divide-y max-h-[500px] overflow-y-auto">
+
+                    {% for item in food %}
+                    <div class="p-6 flex flex-col sm:flex-row gap-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+
+                        <!-- IMAGE -->
+                        <img src="{{ item.food_images.url }}"
+                             class="w-24 h-24 rounded-xl object-cover">
+
+                        <!-- DETAILS -->
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg">
+                                {{ item.product.name }}
+                            </h3>
+
+                            <p class="text-sm text-gray-500">
+                                {{ item.product.description|truncatechars:80 }}
+                            </p>
+
+                            <div class="text-xs text-gray-400 mt-2">
+                                Size: {{ item.size }} |
+                                Color: {{ item.color }}
+                            </div>
+                        </div>
+
+                        <!-- PRICE -->
+                        <div class="text-right">
+                            <p class="text-sm">Qty: {{ item.quantity }}</p>
+                            <p class="font-bold text-lg">
+                                ₹{{ item.total_price }}
+                            </p>
+                        </div>
+
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- CUSTOMER -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- CUSTOMER INFO -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold mb-4">Customer</h3>
+
+                    <p>{{ data.customer.user.get_full_name }}</p>
+                    <p class="text-sm text-gray-500">
+                        {{ data.customer.user.email }}
+                    </p>
+                </div>
+
+                <!-- ADDRESS -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg">
+                    <h3 class="font-bold mb-4">Shipping Address</h3>
+
+                    <p class="text-sm leading-relaxed">
+                        {{ data.shipping_address }}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="lg:col-span-4">
+
+            <div class="bg-gray-900 text-white p-6 rounded-2xl shadow-xl sticky top-20">
+
+                <h3 class="font-bold text-lg mb-6">Payment Summary</h3>
+
+                <div class="space-y-3 text-sm">
+
+                    <div class="flex justify-between">
+                        <span>Subtotal</span>
+                        <span>₹{{ data.subtotal }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Discount</span>
+                        <span class="text-green-400">
+                            -₹{{ data.discount }}
+                        </span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Shipping</span>
+                        <span>₹{{ data.shipping }}</span>
+                    </div>
+
+                    <div class="border-t pt-4 mt-4 flex justify-between font-bold text-lg">
+                        <span>Total</span>
+                        <span>₹{{ data.total }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+</body>
+</html>

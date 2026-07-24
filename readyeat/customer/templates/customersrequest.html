@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block base %}
+
+<main class="max-w-5xl mx-auto p-6 lg:p-10">
+
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden">
+
+        <section class="grid grid-cols-1 lg:grid-cols-2">
+
+            <!-- LEFT IMAGE -->
+            <div class="bg-gray-100 p-6 flex items-center justify-center">
+
+                {% if data.food_images %}
+                <img src="{{ data.food_images.url }}"
+                    class="w-full h-96 object-cover rounded-xl shadow hover:scale-105 transition">
+                {% else %}
+                <img src="/media/fooddonor_image/default.jpg" class="w-full h-96 object-cover rounded-xl opacity-70">
+                {% endif %}
+
+            </div>
+
+            <!-- RIGHT DETAILS -->
+            <div class="p-8">
+
+                <h1 class="text-3xl font-bold mb-3">
+                    {{ data.food_name }}
+                </h1>
+
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    {{ data.food_description }}
+                </p>
+
+                <p class="text-lg font-semibold text-green-600 mb-6">
+                    ₹ {{ data.price }}
+                </p>
+
+                <div class="space-y-2 mb-6">
+
+                    <p class="text-sm text-gray-500">
+                        Organization:
+                        <span class="font-semibold text-gray-700">
+                            {{ data.organization_name }}
+                        </span>
+                    </p>
+
+                    <p class="text-sm text-gray-500">
+                        Category:
+                        <span class="font-semibold text-gray-700">
+                            {{ data.food_items }}
+                        </span>
+                    </p>
+
+                </div>
+
+                <!-- ADD TO CART -->
+                <form method="POST" action="{% url 'cartlist' %}">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-1">
+                            Quantity
+                        </label>
+
+                        <input type="number" name="quantity" value="1" min="1"
+                            class="border border-gray-300 focus:ring-2 focus:ring-green-500 p-2 rounded w-28">
+                    </div>
+
+                    <button type="submit"
+                        class="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition w-full">
+
+                        Add to Cart 🛒
+
+                    </button>
+                </form>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+{% endblock %}

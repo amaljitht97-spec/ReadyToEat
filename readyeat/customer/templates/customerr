@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block base %}
+
+<main class="max-w-6xl mx-auto p-6 lg:p-10 bg-gray-50">
+
+    <!-- Breadcrumb -->
+    <nav class="text-sm text-gray-500 mb-6">
+        <a href="{% url 'homedash' %}" class="hover:underline">Back to foods</a>
+        <span class="mx-2">•</span>
+        <span class="text-gray-700">{{ food.title }}</span>
+    </nav>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+        <!-- ================= LEFT (IMAGE) ================= -->
+        <div class="space-y-4">
+
+            <div class="rounded-xl overflow-hidden bg-white p-6 shadow-sm">
+
+                <img src="{{ food.image.url }}"
+                     class="w-full h-96 object-cover rounded-lg">
+
+                <div class="mt-4 text-sm text-gray-500">
+                    Freshly donated food • Ready to serve
+                </div>
+
+            </div>
+
+            <!-- ABOUT -->
+            <div class="bg-white rounded-xl p-4 shadow-sm">
+                <h3 class="text-sm font-semibold text-gray-700 mb-2">
+                    About this food
+                </h3>
+                <p class="text-sm text-gray-600">
+                    {{ food.bio }}
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- ================= RIGHT (DETAILS) ================= -->
+        <aside class="sticky top-6">
+
+            <div class="bg-white rounded-xl shadow p-6 lg:p-8">
+
+                <h1 class="text-2xl lg:text-3xl font-bold">
+                    {{ food.title }}
+                </h1>
+
+                <!-- PRICE (if you use price) -->
+                {% if food.price %}
+                <div class="mt-4 text-3xl font-bold text-green-600">
+                    ₹ {{ food.price }}
+                </div>
+                {% else %}
+                <div class="mt-4 text-lg text-green-600 font-semibold">
+                    Free / Donated
+                </div>
+                {% endif %}
+
+                <!-- STATUS -->
+                <div class="mt-5 border rounded-lg p-4 bg-gray-50 flex justify-between items-center">
+                    <div class="text-sm">
+                        <div class="font-medium">Pickup / Delivery Available</div>
+                        <div class="text-gray-500 text-xs">1 item</div>
+                    </div>
+                    <div class="text-green-600 font-semibold">Available</div>
+                </div>
+
+                <!-- QUANTITY -->
+                <div class="mt-5">
+                    <label class="text-sm font-medium text-gray-700">
+                        Quantity
+                    </label>
+
+                    <div class="flex items-center gap-3 mt-2">
+
+                        <div class="flex items-center border rounded-lg overflow-hidden">
+                            <button id="dec" class="px-4 py-2">−</button>
+                            <input id="qty" type="number" value="1" min="1"
+                                   class="w-16 text-center outline-none">
+                            <button id="inc" class="px-4 py-2">+</button>
+                        </div>
+
+                        <!-- ORDER BUTTON -->
+                        <a href="{% url 'add_to_cart' food.id %}"
+                           class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                            Order Now
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const dec = document.getElementById('dec');
+const inc = document.getElementById('inc');
+const qty = document.getElementById('qty');
+
+if (dec && inc && qty) {
+    dec.addEventListener('click', () => {
+        let v = parseInt(qty.value || 1);
+        if (v > 1) qty.value = v - 1;
+    });
+
+    inc.addEventListener('click', () => {
+        let v = parseInt(qty.value || 1);
+        qty.value = v + 1;
+    });
+}
+</script>
+
+{% endblock %}

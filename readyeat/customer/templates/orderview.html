@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- 🔹 NAVBAR WITH LOGOUT -->
+    <nav class="bg-[#00674b] px-6 py-4 flex justify-between items-center text-white shadow-md">
+        <h1 class="text-xl font-bold">🍱 Orders</h1>
+
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit"
+                class="bg-white text-[#00674b] px-4 py-1 rounded-lg text-sm hover:bg-gray-200">
+                Logout
+            </button>
+        </form>
+    </nav>
+
+    <div class="max-w-6xl mx-auto p-6">
+
+        <!-- 🔹 Order Header -->
+        <div class="bg-white shadow-lg rounded-2xl p-6 mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">Order #{{ data.id }}</h1>
+                    <p class="text-gray-500 text-sm">{{ data.created_at }}</p>
+                </div>
+
+                {% if data.is_paid %}
+                <span class="bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-semibold">
+                    Paid
+                </span>
+                {% else %}
+                <span class="bg-yellow-100 text-yellow-700 px-4 py-1 rounded-full text-sm font-semibold">
+                    Pending
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 🔹 Food Items -->
+        {% for item in foods %}
+        <div class="bg-white shadow-lg rounded-2xl p-6 mb-6">
+
+            <div class="flex gap-4">
+                <img src="{{ item.food_images.url }}" class="w-24 h-24 object-cover rounded-lg">
+
+                <div>
+                    <h3 class="font-semibold text-lg">{{ item.food_title }}</h3>
+                    <p class="text-gray-500 text-sm">{{ item.food_description }}</p>
+                </div>
+            </div>
+
+            <!-- 🔹 Reviews -->
+            <div class="mt-4">
+                <h3 class="font-semibold">Reviews</h3>
+
+                {% for review in data.reviews.all %}
+                {% if review.food.id == item.id %}
+                <div class="border-b py-2">
+                    <p class="text-sm font-medium">{{ review.user }}</p>
+                    <p class="text-gray-600">{{ review.comment }}</p>
+                    <p class="text-yellow-500">⭐ {{ review.rating }}</p>
+                </div>
+                {% endif %}
+                {% empty %}
+                <p class="text-gray-400">No reviews yet</p>
+                {% endfor %}
+            </div>
+
+            <!-- 🔹 Add Review Form -->
+            <form method="POST" action="{% url 'addreview' data.id %}" class="mt-4">
+                {% csrf_token %}
+
+                <input type="hidden" name="food_id" value="{{ item.id }}">
+
+                <input type="text" name="comment" placeholder="Write your review..."
+                    class="w-full border rounded px-4 py-2 mb-2">
+
+                <select name="rating" class="w-full border rounded px-2 py-2 mb-2">
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="1">⭐</option>
+                </select>
+
+                <div class="flex justify-between">
+
+                    {% if item.id %}
+                    <a href="{% url 'location' item.id %}" 
+                       class="bg-gray-300 px-4 py-2 rounded">
+                        Location
+                    </a>
+                    {% else %}
+                    <span class="text-gray-400 px-4 py-2">
+                        Location not available
+                    </span>
+                    {% endif %}
+
+                    <button type="submit"
+                        class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">
+                        Submit
+                    </button>
+
+                </div>
+            </form>
+
+        </div>
+        {% endfor %}
+
+        <!-- 🔹 Summary -->
+        <div class="bg-white shadow-lg rounded-2xl p-6">
+            <h2 class="text-xl font-semibold mb-4">Summary</h2>
+
+            <div class="flex justify-between">
+                <span>Total</span>
+                <span>₹{{ data.total }}</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

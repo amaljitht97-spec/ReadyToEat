@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+
+    <div class="min-h-screen flex items-center justify-center " style="background-color: #00674b;">
+
+
+        <div class=" rounded-3xl shadow-2xl flex flex-col lg:flex-row w-full max-w-4xl overflow-hidden" style="background-color:white;">
+
+            <!-- Left Image -->
+            <div class="lg:w-1/2 hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1508780709619-79562169bc64?auto=format&fit=crop&w=800&q=80"
+                    class="w-full h-full object-cover">
+            </div>
+
+            <!-- Login Form -->
+            <div class="w-full lg:w-1/2 p-10 flex flex-col justify-center">
+
+                <h1 class="text-3xl sm:text-4xl font-bold text-black text-center mb-6">
+                    Welcome 
+                </h1>
+
+                <!-- Divider -->
+                <div class="flex items-center text-gray-400 mb-6">
+                    <hr class="flex-1 border-gray-600">
+                    <span class="px-2 text-sm">Login</span>
+                    <hr class="flex-1 border-gray-600">
+                </div>
+
+                <form method="POST" class="flex flex-col gap-4">
+                    {% csrf_token %}
+
+                    <input type="username" name="username" placeholder="username"
+                        class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                    <input type="password" name="password" placeholder="Password"
+                        class="w-full px-4 py-2 rounded-xl bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                    <button type="submit"
+                        class="py-2 px-4 rounded-xl bg-gradient-to-r   text-white font-bold shadow-lg hover:from-cyan-500 hover:to-purple-600 transition" style="background-color: #00674b;">Login
+                        
+                    </button>
+
+                    <p class="flex justify-between text-sm text-gray-400 mt-2">
+                        <a href="#" class="hover:text-white transition">Forgot password?</a>
+                        <a href="{% url 'registerdonr' %}" class="hover:text-white transition">donor Sign up</a>
+                        <a href="{% url 'custsign' %}" class="hover:text-white transition">users Sign up</a>
+                    </p>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

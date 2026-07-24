@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Donor Dashboard</title>
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Geocoder -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<!-- NAVBAR -->
+<nav class="bg-[#00674b] px-6 py-4 flex justify-between items-center text-white shadow-md">
+    <h1 class="text-xl font-bold">🍱 Food Donor Dashboard</h1>
+
+    <div class="space-x-6 hidden md:flex">
+        <a href="#">Home</a>
+        <a href="#">Orders</a>
+        <a href="#">Profile</a>
+    </div>
+
+    <a href="" class="bg-white text-[#00674b] px-4 py-1 rounded-lg text-sm">
+        Logout
+    </a>
+</nav>
+
+<!-- FORM -->
+<div class="flex justify-center mt-16 px-6">
+    <form method="POST" class="w-full max-w-2xl bg-white shadow-lg rounded-xl p-6 border">
+        {% csrf_token %}
+
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">
+            Donor Profile
+        </h2>
+
+        {{ form.errors }}
+
+        <!-- ORGANIZATION -->
+        <div class="mb-4">
+            <label class="text-gray-600">Organization Name</label>
+            <input type="text"
+                   name="organization_name"
+                   value="{{ form.organization_name.value|default:'' }}"
+                   class="w-full py-3 border rounded-lg px-3"
+                   placeholder="Enter organization name"
+                   required>
+        </div>
+
+        <!-- PHONE -->
+        <div class="mb-4">
+            <label class="text-gray-600">Phone</label>
+            {{ form.phone }}
+        </div>
+
+        <!-- MAP -->
+        <div class="mb-4">
+            <label class="text-gray-600 font-medium">
+                Search or Click Location
+            </label>
+
+            <div id="map" class="w-full h-64 rounded-lg mt-2"></div>
+
+            <!-- ADDRESS -->
+            <input type="text"
+                   id="id_address"
+                   name="address"
+                   value="{{ form.address.value|default:'' }}"
+                   class="w-full mt-3 py-3 border rounded-lg px-3 bg-gray-100"
+                   placeholder="Search or click map"
+                   readonly required>
+
+            <!-- Hidden fields -->
+            {{ form.latitude }}
+            {{ form.longitude }}
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="text-right">
+            <button type="submit"
+                class="bg-[#00674b] text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                Save Profile
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<!-- MAP SCRIPT -->
+<script>
+
+    var map = L.map('map').setView([11.2588, 75.7804], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var marker;
+
+    // SEARCH
+    var geocoder = L.Control.geocoder({
+        defaultMarkGeocode: false
+    }).addTo(map);
+
+    geocoder.on('markgeocode', function(e) {
+        var latlng = e.geocode.center;
+        setMarker(latlng.lat, latlng.lng);
+    });
+
+    // CLICK
+    map.on('click', function(e) {
+        setMarker(e.latlng.lat, e.latlng.lng);
+    });
+
+    function setMarker(lat, lng) {
+
+        map.setView([lat, lng], 15);
+
+        if (marker) map.removeLayer(marker);
+
+        marker = L.marker([lat, lng]).addTo(map);
+
+        // SAVE LAT LNG
+        document.getElementById('id_latitude').value = lat;
+        document.getElementById('id_longitude').value = lng;
+
+        setAddress(lat, lng);
+    }
+
+    function setAddress(lat, lng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+        .then(res => res.json())
+        .then(data => {
+
+            let addr = data.address;
+
+            let place =
+                addr.road ||
+                addr.suburb ||
+                addr.neighbourhood ||
+                addr.village ||
+                "";
+
+            let city =
+                addr.city ||
+                addr.town ||
+                addr.village ||
+                addr.county ||
+                "";
+
+            let state = addr.state || "";
+
+            let cleanAddress = [place, city, state]
+                .filter(Boolean)
+                .join(", ");
+
+            document.getElementById('id_address').value = cleanAddress;
+        })
+        .catch(() => {
+            document.getElementById('id_address').value = lat + ", " + lng;
+        });
+    }
+
+    // LOAD EXISTING LOCATION
+    var existingLat = "{{ form.instance.latitude }}";
+    var existingLng = "{{ form.instance.longitude }}";
+
+    if (existingLat && existingLng) {
+        setMarker(parseFloat(existingLat), parseFloat(existingLng));
+    }
+
+</script>
+
+</body>
+</html>
