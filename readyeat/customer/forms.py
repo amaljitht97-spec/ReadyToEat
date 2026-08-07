@@ -5,17 +5,7 @@ from customer.models import *
 
 # forms
 
-class CustomerRegistrationForm(UserCreationForm):
-    class Meta:
-        model=User
-        fields=["email","username","phone","password1","password2"]
-    def save(self, commit = True):
-        customer=super().save(commit=False)
-        customer.role="customer"
-       
-        if commit:
-            customer.save()
-        return customer
+
     
 class CustomerForm(forms.ModelForm):
     class Meta:

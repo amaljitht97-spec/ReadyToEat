@@ -2,108 +2,220 @@
 
 {% block base %}
 
-<div class="bg-white text-black">
+<div class="relative min-h-screen">
 
-    <!-- ================= STEPS CAROUSEL ================= -->
-    <section class="p-10 text-center">
+    <!-- Background Overlay -->
+    <div class="absolute inset-0 bg-black/50"></div>
 
-        <h2 class="text-3xl font-bold mb-8">How It Works</h2>
+    <!-- Main Content -->
+    <div class="relative z-10">
 
-        <div class="relative w-full max-w-4xl mx-auto overflow-hidden">
+        <!-- ================= HOW IT WORKS ================= -->
 
-            <div id="carousel" class="flex transition-transform duration-700">
+        <section class="py-12 px-6">
 
-                <!-- STEP 1 -->
-                <div class="min-w-full p-6">
-                    <img src="https://img.freepik.com/free-vector/food-donation-concept_23-2148590263.jpg"
-                        class="w-full h-64 object-cover rounded-xl">
-                    <h3 class="text-xl font-semibold mt-4">1. Add Food</h3>
-                    <p class="text-gray-600">Donors upload surplus food easily.</p>
+            <h2 class="text-4xl font-bold text-center text-white mb-10">
+                How It Works
+            </h2>
+
+            <div class="relative max-w-5xl mx-auto overflow-hidden rounded-2xl shadow-2xl">
+
+                <!-- Carousel -->
+                <div id="carousel"
+                    class="flex transition-transform duration-700 ease-in-out">
+
+                    <!-- Slide 1 -->
+                    <div class="min-w-full relative">
+
+                        <img src="https://img.freepik.com/free-vector/food-donation-concept_23-2148590263.jpg"
+                            class="w-full h-[450px] object-cover">
+
+                        <div
+                            class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center px-8">
+
+                            <h3 class="text-4xl font-bold text-white mb-3">
+                                Donate Surplus Food
+                            </h3>
+
+                            <p class="text-lg text-gray-200">
+                                Restaurants and homes can upload extra food easily.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="min-w-full relative">
+
+                        <img src="https://img.freepik.com/free-vector/online-food-order_23-2148653052.jpg"
+                            class="w-full h-[450px] object-cover">
+
+                        <div
+                            class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center px-8">
+
+                            <h3 class="text-4xl font-bold text-white mb-3">
+                                Request Food
+                            </h3>
+
+                            <p class="text-lg text-gray-200">
+                                Customers browse and request available meals.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="min-w-full relative">
+
+                        <img src="https://img.freepik.com/free-vector/delivery-service-concept_23-2148505081.jpg"
+                            class="w-full h-[450px] object-cover">
+
+                        <div
+                            class="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center px-8">
+
+                            <h3 class="text-4xl font-bold text-white mb-3">
+                                Fast Delivery
+                            </h3>
+
+                            <p class="text-lg text-gray-200">
+                                Fresh food reaches people without waste.
+                            </p>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <!-- STEP 2 -->
-                <div class="min-w-full p-6">
-                    <img src="https://img.freepik.com/free-vector/online-food-order_23-2148653052.jpg"
-                        class="w-full h-64 object-cover rounded-xl">
-                    <h3 class="text-xl font-semibold mt-4">2. Request</h3>
-                    <p class="text-gray-600">Customers request available food.</p>
-                </div>
+                <!-- Previous Button -->
 
-                <!-- STEP 3 -->
-                <div class="min-w-full p-6">
-                    <img src="https://img.freepik.com/free-vector/delivery-service-concept_23-2148505081.jpg"
-                        class="w-full h-64 object-cover rounded-xl">
-                    <h3 class="text-xl font-semibold mt-4">3. Deliver</h3>
-                    <p class="text-gray-600">Food gets delivered quickly.</p>
-                </div>
+                <button id="prev"
+                    class="absolute left-5 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-black w-12 h-12 rounded-full shadow-lg text-2xl z-20">
+                    ❮
+                </button>
+
+                <!-- Next Button -->
+
+                <button id="next"
+                    class="absolute right-5 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-black w-12 h-12 rounded-full shadow-lg text-2xl z-20">
+                    ❯
+                </button>
 
             </div>
 
-        </div>
+        </section>
 
-    </section>
+        <!-- ================= AVAILABLE FOOD ================= -->
 
+        <section class="px-8 pb-12">
 
-    <!-- ================= PRODUCTS ================= -->
-    <section class="p-6">
+            <h2 class="text-4xl font-bold text-white text-center mb-10">
+                Available Food
+            </h2>
 
-        <h2 class="text-2xl font-bold mb-6 text-center">Available Food</h2>
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for i in data %}
 
-            {% for i in data %}
+                <div
+                    class="bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-xl hover:scale-105 transition duration-300">
 
-            <div class="bg-green-700 text-white rounded-xl shadow-lg hover:scale-105 transition p-4">
+                    <img src="{{ i.image.url }}"
+                        class="w-full h-56 object-cover">
 
-                <img class="w-full h-40 object-cover rounded-lg" src="{{ i.image.url }}">
+                    <div class="p-5">
 
-                <h3 class="text-lg font-semibold mt-3">{{ i.title }}</h3>
-                <p class="text-sm opacity-80">{{ i.bio }}</p>
+                        <h3 class="text-xl font-bold text-gray-800">
+                            {{ i.title }}
+                        </h3>
 
-                <p class="text-green-300 mt-2">
-                    Quantity: {{ i.quantity }}
-                </p>
+                        <p class="text-gray-600 mt-2">
+                            {{ i.bio }}
+                        </p>
 
-                <!-- ✅ ONLY ONE FORM -->
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ i.id }}">
+                        <p class="text-green-700 font-semibold mt-3">
+                            Quantity : {{ i.quantity }}
+                        </p>
 
-                    <button class="mt-3 bg-white text-green-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition">
-                        Order
-                    </button>
-                </form>
+                        <form method="POST" class="mt-5">
+                            {% csrf_token %}
+
+                            <input type="hidden"
+                                name="id"
+                                value="{{ i.id }}">
+
+                            <button
+                                class="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-xl font-semibold transition">
+                                Order Now
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-span-4 text-center text-white text-xl">
+                    No Food Available
+                </div>
+
+                {% endfor %}
 
             </div>
 
-            {% empty %}
+        </section>
 
-            <p class="text-center col-span-4 text-gray-500">
-                No food available
-            </p>
-
-            {% endfor %}
-
-        </div>
-
-    </section>
+    </div>
 
 </div>
 
-
 <!-- ================= CAROUSEL SCRIPT ================= -->
+
 <script>
-    let index = 0;
-    const carousel = document.getElementById("carousel");
 
-    if (carousel) {
-        const totalSlides = carousel.children.length;
+const carousel = document.getElementById("carousel");
+const slides = document.querySelectorAll("#carousel > div");
 
-        setInterval(() => {
-            index = (index + 1) % totalSlides;
-            carousel.style.transform = `translateX(-${index * 100}%)`;
-        }, 3000);
+let index = 0;
+
+function showSlide(i){
+    carousel.style.transform = `translateX(-${i * 100}%)`;
+}
+
+function nextSlide(){
+    index++;
+
+    if(index >= slides.length){
+        index = 0;
     }
+
+    showSlide(index);
+}
+
+function prevSlide(){
+
+    index--;
+
+    if(index < 0){
+        index = slides.length - 1;
+    }
+
+    showSlide(index);
+
+}
+
+document.getElementById("next").addEventListener("click", nextSlide);
+
+document.getElementById("prev").addEventListener("click", prevSlide);
+
+// Auto Slide Every 4 Seconds
+setInterval(nextSlide,4000);
+
 </script>
 
 {% endblock %}

@@ -12,18 +12,6 @@ from account.models import *
 
 # Create your views here.
 
-class DonorSignupView(View):
-    def get(self,request):
-       form=DonorRegistrationForm
-       return render(request,"donorregistration.html",{"form":form})
-    def post(self,request):
-        form_data=DonorRegistrationForm(data=request.POST)
-        if form_data.is_valid():
-            form_data.save()
-            messages.success(request,"admin registration successfully!")
-            return redirect('homedash')
-        messages.info(request,"invalid input!")
-        return render(request,"donorregistration.html",{"form":form_data})
     
 class DonorProfileView(View):
 

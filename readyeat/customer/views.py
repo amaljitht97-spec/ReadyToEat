@@ -24,21 +24,7 @@ RAZR_SECRET_KEY="uQqqHe5i3LgRSYbi3HzjFwA2"
 
 # Create your views here.
 
-class CustomerRegisterView(View):
-    def get(self,request):
-        form=CustomerRegistrationForm
-        return render(request,"customerreg.html",{"form":form})
-    def post(self,request):
-        form_data=CustomerRegistrationForm(data=request.POST)
-        if form_data.is_valid():
-            form_data.save()
-            messages.success(request,"successfully Registered!")
-            return redirect('homedash')
-        return render(request,"customerreg.html",{"form":form_data})
-    
-class CustomerLoginView(View):
-    def get(self,request):
-        return render(request,"customerlogin.html")
+
 
 
     
@@ -613,14 +599,14 @@ class LocationView(View):
         })
         
         
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect('login')
+# class LogoutView(View):
+#     def get(self, request):
+#         logout(request)
+#         return redirect('login')
 
-    def post(self, request):
-        logout(request)
-        return redirect('login')
+#     def post(self, request):
+#         logout(request)
+#         return redirect('login')
     
         
         

@@ -6,7 +6,7 @@ from django.db.models.signals import post_save
 class User(AbstractUser):
 
     ROLE_CHOICES = (
-        ('admin', 'Admin'),
+        ("", "Choose Your Role"),
         ('donor', 'Donor'),
         ('customer', 'Customer'),
     )

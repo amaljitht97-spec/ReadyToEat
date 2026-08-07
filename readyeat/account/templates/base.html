@@ -23,25 +23,21 @@
 
         <div class="space-x-6 hidden md:flex">
 
-            <a href="{% url 'customerfoods' %}" class="hover:text-green-600">
-                Home
-            </a>
+            <a href="{% url 'customerfoods' %}">Home</a>
 
-            <a href="{% url 'customerprofile' %}" class="hover:text-green-600">
-                Profile
-            </a>
+{% if request.user.role == "customer" %}
+    <a href="{% url 'customerprofile' %}">Profile</a>
+    <a href="{% url 'cartlist' %}">Cart</a>
+    <a href="{% url 'orders' %}">Orders</a>
+{% endif %}
 
-            <a href="{% url 'cartlist' %}" class="hover:text-green-600">
-                Cart<i class="fa-solid fa-cart-shopping"></i>
-                <span>{{cartCount}}</span>
-            </a>
+{% if request.user.role == "donor" %}
+    <a href="{% url 'donorprofile' %}">Profile</a>
+    <a href="{% url 'fooddonor' %}">My Donations</a>
+    {% comment %} <a href="{% url 'fooditems' %}">Donate Food</a> {% endcomment %}
+{% endif %}
 
-            <a href="{% url 'orders' %}" class="hover:text-green-600">
-                Orders
-            </a>
-               <a href="{% url 'logout' %}" class="hover:text-green-600">
-                Logout
-            </a>
+<a href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
 </nav>

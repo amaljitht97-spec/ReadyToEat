@@ -45,7 +45,9 @@
 <span class="text-xl font-bold tracking-tight text-white">Surplus Food</span>
 </div>
 <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-<a class="hover:text-primary transition-colors" href="{% url 'custsign' %}" style="color: white;">Home</a>
+<a class="hover:text-primary transition-colors"
+   href="{% url 'homedash' %}"
+   style="color: white;">Home</a>
 <a class="hover:text-primary transition-colors" href="" style="color: white;">About</a>
 <a class="hover:text-primary transition-colors" href="#how-it-works" style="color: white;">How it Works</a>
 <a class="hover:text-primary transition-colors" href="#listings" style="color: white;">Find Food</a>
@@ -87,12 +89,13 @@ playsinline>
                 Join our platform to share surplus food and support communities. Every meal saved is a step towards a sustainable future.
             </p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-<button class="bg-white text-primary px-8 py-4 rounded-xl text-lg font-bold hover:bg-slate-100 transition-all shadow-xl" style="color: #00674b;"><a href="{% url 'registerdonr' %}">  Donate Surplus Food </a>
-                  
-                </button>
-<button class="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm" style="background-color: #00674b;"><a href="{% url 'custsign' %}">Find Food Near You</a>
-                    
-                </button>
+<button class="bg-white text-primary px-8 py-4 rounded-xl text-lg font-bold hover:bg-slate-100 transition-all shadow-xl" style="color: #00674b;">
+    <a href="{% url 'login' %}">Donate Surplus Food</a>
+</button>
+
+<button class="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/10 transition-all backdrop-blur-sm" style="background-color: #00674b;">
+    <a href="{% url 'login' %}">Find Food Near You</a>
+</button>
 </div>
 </div>
 </section>
