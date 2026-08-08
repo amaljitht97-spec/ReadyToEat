@@ -15,7 +15,7 @@ from django.urls import reverse_lazy,reverse
 
 class HomeDashView(View):
     def get(self,request):
-        return render(request,"Homedash.html")
+        return render(request,"homedash.html")
 class SignupView(View):
 
     def get(self,request):
